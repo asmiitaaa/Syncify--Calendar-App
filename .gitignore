@@ -1,0 +1,19 @@
+# Node
+node_modules/
+npm-debug.log
+
+# Environment variables
+.env
+
+# Python (for Ananya's chatbot)
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
