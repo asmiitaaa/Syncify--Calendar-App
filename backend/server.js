@@ -1,5 +1,5 @@
 //server.js-entry point of the program
-// const express = require("express"); //imports express and cors
+const express = require("express"); //imports express and cors
 const cors = require("cors");
 require("dotenv").config(); //loads the .env file to use
 
