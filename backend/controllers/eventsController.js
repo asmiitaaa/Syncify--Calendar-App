@@ -2,30 +2,26 @@ const db = require("../db");
 
 //route GET/api/events
 //accesss- private- needs the jwt token to be accessed
-//route GET/api/events
-const getEvents = async (req, res) => {
-  const user_id = req.user.user_id; //this comes from the jwt via the middleware, we get the user
-  //GETTING ALL THE EVENTS FOR A CERTAIN USER
-  try {
-    // using IN - get all events where the user is a participant
-    const [results] = await db
-      .promise()
-      .query(
-        "SELECT * FROM events WHERE event_id IN (SELECT event_id FROM event_participants WHERE user_id = ?)",
-        [user_id],
-      );
 
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+const getEvents = (req, res) => {
+  const user_id = req.user.user_id; //this comes from the jwt via the middleware, we get the user
+
+  //QUERY TO GET EVENTS
+
+  db.query(
+    "SELECT e.*,ep.role, ep.status from events e join event_participants ep on e.event_id=ep.event_id where ep.user_id=?",
+    [user_id],
+    (err, results) => {
+      if (err) return res.status(500).json({ message: err.message });
+      res.json(results);
+    },
+  );
 };
 
 //route GET/api/events/:id
 //private access
 
 const getEventById = (req, res) => {
-  //gets one particular event of a user by the event id
   const { id } = req.params; //the id is a paramter of the req, so we get the id from the request
   db.query(
     "select e.*, ep.role, ep.status from events e join event_participants ep on e.event_id=ep.event_id where e.event_id=?",
