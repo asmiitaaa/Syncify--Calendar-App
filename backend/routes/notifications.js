@@ -1,8 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const verifyToken = require("../middleware/auth");
+const {
+  getNotifications,
+  markNotificationSent,
+} = require("../controllers/notificationsController");
 
-router.get("/", (req, res) =>
-  res.json({ message: "notifications route working" }),
-);
+// @route   GET /api/notifications
+router.get("/", verifyToken, getNotifications);
+
+// @route   PUT /api/notifications/:id
+router.put("/:id", verifyToken, markNotificationSent);
 
 module.exports = router;
