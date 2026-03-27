@@ -11,6 +11,7 @@ const db = mysql.createConnection({
 db.connect((err) => {
   if (err) throw err;
   console.log("MySQL connected!");
+  db.query("SET time_zone = '+05:30'");
 });
 
 module.exports = db;
