@@ -17,10 +17,10 @@ const sendReminderEmail = async (to, eventTitle, startDatetime) => {
     to,
     subject: `Reminder!: ${eventTitle}`,
     html: `
-            <h2>Event reminder 📅</h2>
+            <h2>Event reminder </h2>
             <p>This is a reminder for your upcoming event:</p>
             <h3>${eventTitle}</h3>
-            <p>starts at: ${startDatetime}</p>
+            <p>Starts at: ${startDatetime}</p>
             <br/>
             <p>Regards,</p>
             <p>Syncify</p>
