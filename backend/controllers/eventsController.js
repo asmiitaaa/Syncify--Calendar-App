@@ -87,35 +87,29 @@ const createEvent = (req, res) => {
         ) => {
           if (err) return res.status(500).json({ message: err.message });
 
+          function insertAuditLog() {
+            // trigger handles audit log automatically on event insert
+            res
+              .status(201)
+              .json({ message: "Event created successfully", event_id });
+          }
+
           // add other participants if any
           if (participants && participants.length > 0) {
-            const values = participants.map((user_id) => [
-              event_id,
-              user_id,
-              "participant",
-              "invited",
-            ]);
+            const values = participants
+              .filter((user_id) => user_id !== creator_id) // don't add creator again
+              .map((user_id) => [event_id, user_id, "participant", "invited"]);
             db.query(
               "INSERT INTO event_participants (event_id, user_id, role, status) VALUES ?",
               [values],
               (err) => {
                 if (err) return res.status(500).json({ message: err.message });
+                insertAuditLog();
               },
             );
+          } else {
+            insertAuditLog();
           }
-
-          // add to audit log
-          db.query(
-            `INSERT INTO audit_logs (event_id, action, performed_by, details) VALUES (?, 'created', ?, ?)`,
-            [event_id, creator_id, `Event '${title}' created`],
-            (err) => {
-              if (err) return res.status(500).json({ message: err.message });
-            },
-          );
-
-          res
-            .status(201)
-            .json({ message: "Event created successfully", event_id });
         },
       );
     },
@@ -208,15 +202,7 @@ const deleteEvent = async (req, res) => {
         .status(403)
         .json({ message: "not authorized to delete this event" });
 
-    // add to audit log before deleting
-    await db
-      .promise()
-      .query(
-        `INSERT INTO audit_logs (event_id, action, performed_by, details) VALUES (?, 'deleted', ?, ?)`,
-        [id, user_id, "event deleted"],
-      );
-
-    // delete the event
+    // delete the event - trigger handles audit log automatically before delete
     await db.promise().query("DELETE FROM events WHERE event_id = ?", [id]);
 
     res.json({ message: "event deleted successfully" });
