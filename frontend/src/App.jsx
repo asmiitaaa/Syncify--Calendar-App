@@ -9,6 +9,7 @@ import Admin from "./pages/Admin";
 import Navbar from "./components/Navbar";
 import Toast from "./components/Toast";
 import Chatbot from "./components/Chatbot";
+import EditEvent from "./pages/EditEvent";
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -51,6 +52,14 @@ function App() {
           element={
             <PrivateRoute>
               <Events />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/edit-event/:id"
+          element={
+            <PrivateRoute>
+              <EditEvent />
             </PrivateRoute>
           }
         />

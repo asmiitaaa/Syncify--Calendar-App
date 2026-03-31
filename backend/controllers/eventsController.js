@@ -167,14 +167,7 @@ const updateEvent = async (req, res) => {
         ],
       );
 
-    // add to audit log
-    await db
-      .promise()
-      .query(
-        `INSERT INTO audit_logs (event_id, action, performed_by, details) VALUES (?, 'updated', ?, ?)`,
-        [id, user_id, `Event '${title}' updated`],
-      );
-
+    // add to audit log-handled by the trigger
     res.json({ message: "event updated successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -242,23 +242,44 @@ export default function Events() {
                     <td style={{ padding: "14px 16px" }}>
                       <div style={{ display: "flex", gap: "6px" }}>
                         {isCreator ? (
-                          <button
-                            onClick={() => deleteEvent(e.event_id)}
-                            style={{
-                              width: "32px",
-                              height: "32px",
-                              borderRadius: "8px",
-                              background: "var(--surface)",
-                              border: "1px solid var(--border)",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                              fontSize: "15px",
-                            }}
-                          >
-                            🗑️
-                          </button>
+                          <>
+                            <button
+                              onClick={() =>
+                                navigate(`/edit-event/${e.event_id}`)
+                              }
+                              style={{
+                                width: "32px",
+                                height: "32px",
+                                borderRadius: "8px",
+                                background: "var(--surface)",
+                                border: "1px solid var(--border)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                cursor: "pointer",
+                                fontSize: "15px",
+                              }}
+                            >
+                              ✏️
+                            </button>
+                            <button
+                              onClick={() => deleteEvent(e.event_id)}
+                              style={{
+                                width: "32px",
+                                height: "32px",
+                                borderRadius: "8px",
+                                background: "var(--surface)",
+                                border: "1px solid var(--border)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                cursor: "pointer",
+                                fontSize: "15px",
+                              }}
+                            >
+                              🗑️
+                            </button>
+                          </>
                         ) : (
                           <>
                             <button
