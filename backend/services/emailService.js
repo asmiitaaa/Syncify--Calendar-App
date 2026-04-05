@@ -1,19 +1,18 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// create transporter - connects to gmail
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
 });
 
-// send reminder email
 const sendReminderEmail = async (to, eventTitle, startDatetime) => {
   const mailOptions = {
-    from: `Syncify <${process.env.EMAIL_USER}>`,
+    from: `Syncify <mysyncifyapp@gmail.com>`,
     to,
     subject: `Reminder!: ${eventTitle}`,
     html: `
