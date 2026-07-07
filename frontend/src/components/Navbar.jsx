@@ -35,7 +35,7 @@ export default function Navbar() {
   return (
     <nav
       style={{
-        background: "var(--white)",
+        background: "var(--surface)",
         borderBottom: "1px solid var(--border)",
         padding: "0 32px",
         display: "flex",
@@ -45,22 +45,26 @@ export default function Navbar() {
         position: "sticky",
         top: 0,
         zIndex: 100,
-        boxShadow: "0 1px 12px rgba(92,110,248,.06)",
       }}
     >
+      {/* brand — ⚜ fleur de lis + Syncify in Lora serif */}
       <div
         style={{
-          fontFamily: "DM Serif Display, serif",
-          fontSize: "22px",
-          color: "var(--accent)",
-          letterSpacing: "-0.5px",
+          fontFamily: "var(--font-serif)",
+          fontSize: "20px",
+          fontWeight: 600,
+          color: "var(--accent-text)",
+          letterSpacing: "-0.3px",
           display: "flex",
           alignItems: "center",
-          gap: "8px",
+          gap: "6px",
         }}
       >
-        📅 Syncify
+        <span style={{ fontSize: "26px" }}>⚜</span>
+        Syncify
       </div>
+
+      {/* nav links */}
       <div style={{ display: "flex", gap: "4px" }}>
         {navLinks.map((link) => (
           <Link
@@ -69,48 +73,52 @@ export default function Navbar() {
             style={{
               padding: "7px 16px",
               borderRadius: "8px",
-              fontSize: "14px",
-              fontWeight: 500,
+              fontSize: "13px",
+              fontWeight: 400,
               textDecoration: "none",
               background:
                 location.pathname === link.to ? "var(--accent-soft)" : "none",
               color:
                 location.pathname === link.to
-                  ? "var(--accent)"
-                  : "var(--slate)",
+                  ? "var(--accent-text)"
+                  : "var(--muted)",
             }}
           >
             {link.label}
           </Link>
         ))}
       </div>
+
+      {/* user info */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
           gap: "10px",
-          fontSize: "14px",
-          fontWeight: 500,
-          color: "var(--slate)",
+          fontSize: "13px",
+          fontWeight: 400,
+          color: "var(--muted)",
         }}
       >
         <div
           style={{
-            width: "34px",
-            height: "34px",
+            width: "32px",
+            height: "32px",
             borderRadius: "50%",
             background: "linear-gradient(135deg, var(--accent), var(--purple))",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             color: "white",
-            fontSize: "13px",
+            fontSize: "12px",
             fontWeight: 600,
           }}
         >
           {initials}
         </div>
-        <span>{user?.name}</span>
+        <span style={{ color: "var(--muted)", fontWeight: 300 }}>
+          {user?.name}
+        </span>
         <button
           onClick={logout}
           style={{
@@ -119,9 +127,10 @@ export default function Navbar() {
             cursor: "pointer",
             padding: "7px 16px",
             borderRadius: "8px",
-            fontSize: "14px",
-            fontWeight: 500,
+            fontSize: "13px",
+            fontWeight: 400,
             color: "var(--red)",
+            fontFamily: "var(--font-sans)",
           }}
         >
           Sign out

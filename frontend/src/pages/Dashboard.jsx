@@ -36,51 +36,29 @@ export default function Dashboard() {
   const greeting =
     hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
+  // removed shared events card — now only 3 stat cards
   const statCards = [
     {
-      icon: "📅",
+      icon: "🗒",
       label: "Total Events",
       value: stats?.total_events ?? "—",
-      color: "blue",
+      bg: "var(--accent-soft)",
     },
     {
-      icon: "⏳",
+      icon: "⌛︎",
       label: "Pending Invites",
       value: stats?.pending_invites ?? "—",
-      color: "orange",
+      bg: "var(--red-soft)",
     },
     {
-      icon: "🔁",
+      icon: "ᦠ",
       label: "Recurring Events",
       value: stats?.recurring_events ?? "—",
-      color: "purple",
-    },
-    {
-      icon: "✅",
-      label: "Shared Events",
-      value:
-        stats?.events_by_visibility?.find((v) => v.visibility === "shared")
-          ?.total ?? 0,
-      color: "green",
+      bg: "var(--purple-soft)",
     },
   ];
 
-  const iconBg = {
-    blue: "var(--accent-soft)",
-    orange: "var(--orange-soft)",
-    purple: "var(--purple-soft)",
-    green: "var(--green-soft)",
-  };
-  const notifIcons = {
-    event_created: "📩",
-    event_updated: "📝",
-    reminder: "🔔",
-  };
-  const notifBg = {
-    event_created: "var(--purple-soft)",
-    event_updated: "var(--orange-soft)",
-    reminder: "var(--accent-soft)",
-  };
+  // all notifications use ⓘ with accent color
   const dotColors = { shared: "var(--accent)", private: "var(--green)" };
 
   return (
@@ -97,15 +75,18 @@ export default function Dashboard() {
         <div>
           <div
             style={{
-              fontFamily: "DM Serif Display, serif",
+              fontFamily: "var(--font-serif)",
               fontSize: "28px",
               lineHeight: 1.2,
               marginBottom: "4px",
+              color: "var(--ink)",
             }}
           >
             {greeting}, {user?.name}
           </div>
-          <div style={{ color: "var(--slate)", fontSize: "14px" }}>
+          <div
+            style={{ color: "var(--dim)", fontSize: "13px", fontWeight: 300 }}
+          >
             {new Date().toLocaleDateString("en-US", {
               weekday: "long",
               year: "numeric",
@@ -117,14 +98,14 @@ export default function Dashboard() {
         <button
           onClick={() => navigate("/new-event")}
           style={{
-            padding: "10px 20px",
+            padding: "9px 20px",
             background: "var(--accent)",
             color: "white",
             border: "none",
-            borderRadius: "10px",
-            fontFamily: "DM Sans, sans-serif",
-            fontSize: "15px",
-            fontWeight: 600,
+            borderRadius: "9px",
+            fontFamily: "var(--font-sans)",
+            fontSize: "13px",
+            fontWeight: 500,
             cursor: "pointer",
           }}
         >
@@ -132,12 +113,12 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* Stats */}
+      {/* Stats — 3 cards */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4,1fr)",
-          gap: "16px",
+          gridTemplateColumns: "repeat(3,1fr)",
+          gap: "14px",
           marginBottom: "28px",
         }}
       >
@@ -145,10 +126,10 @@ export default function Dashboard() {
           <div
             key={s.label}
             style={{
-              background: "var(--white)",
+              background: "var(--surface)",
               border: "1px solid var(--border)",
               borderRadius: "14px",
-              padding: "20px 22px",
+              padding: "18px 20px",
               display: "flex",
               alignItems: "center",
               gap: "14px",
@@ -159,7 +140,7 @@ export default function Dashboard() {
                 width: "44px",
                 height: "44px",
                 borderRadius: "12px",
-                background: iconBg[s.color],
+                background: s.bg,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -170,14 +151,24 @@ export default function Dashboard() {
               {s.icon}
             </div>
             <div>
-              <div style={{ fontSize: "26px", fontWeight: 600, lineHeight: 1 }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "26px",
+                  fontWeight: 600,
+                  lineHeight: 1,
+                  color: "var(--ink2)",
+                }}
+              >
                 {loading ? "—" : s.value}
               </div>
               <div
                 style={{
-                  fontSize: "12px",
-                  color: "var(--muted)",
-                  marginTop: "3px",
+                  fontSize: "11px",
+                  color: "var(--faint)",
+                  marginTop: "4px",
+                  fontWeight: 300,
+                  letterSpacing: ".02em",
                 }}
               >
                 {s.label}
@@ -198,7 +189,7 @@ export default function Dashboard() {
         {/* Events */}
         <div
           style={{
-            background: "var(--white)",
+            background: "var(--surface)",
             border: "1px solid var(--border)",
             borderRadius: "14px",
             overflow: "hidden",
@@ -206,37 +197,47 @@ export default function Dashboard() {
         >
           <div
             style={{
-              padding: "18px 22px",
+              padding: "16px 20px",
               borderBottom: "1px solid var(--border)",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
           >
-            <h3 style={{ fontSize: "15px", fontWeight: 600 }}>My Events</h3>
+            <h3
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "var(--ink2)",
+              }}
+            >
+              My Events
+            </h3>
             <button
               onClick={() => navigate("/events")}
               style={{
-                padding: "8px 18px",
-                background: "var(--white)",
-                color: "var(--accent)",
+                padding: "5px 14px",
+                background: "transparent",
+                color: "var(--accent-text)",
                 border: "1.5px solid var(--accent)",
-                borderRadius: "8px",
-                fontSize: "13px",
+                borderRadius: "7px",
+                fontSize: "12px",
                 fontWeight: 500,
                 cursor: "pointer",
+                fontFamily: "var(--font-sans)",
               }}
             >
               View All
             </button>
           </div>
-          <div style={{ padding: "16px 22px" }}>
+          <div style={{ padding: "14px 20px" }}>
             {loading ? (
               <div
                 style={{
                   textAlign: "center",
                   padding: "20px",
-                  color: "var(--muted)",
+                  color: "var(--faint)",
                 }}
               >
                 Loading events...
@@ -246,7 +247,7 @@ export default function Dashboard() {
                 style={{
                   textAlign: "center",
                   padding: "20px",
-                  color: "var(--muted)",
+                  color: "var(--faint)",
                 }}
               >
                 No events yet. Create your first event!
@@ -261,28 +262,35 @@ export default function Dashboard() {
                       display: "flex",
                       alignItems: "center",
                       gap: "12px",
-                      padding: "10px 0",
-                      borderBottom: "1px solid var(--surface)",
+                      padding: "9px 0",
+                      borderBottom: "1px solid var(--border2)",
                     }}
                   >
                     <div
                       style={{
-                        width: "10px",
-                        height: "10px",
+                        width: "7px",
+                        height: "7px",
                         borderRadius: "50%",
                         background: dotColors[e.visibility] || "var(--accent)",
                         flexShrink: 0,
                       }}
-                    ></div>
+                    />
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: "14px", fontWeight: 500 }}>
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 400,
+                          color: "var(--slate)",
+                        }}
+                      >
                         {e.title}
                       </div>
                       <div
                         style={{
-                          fontSize: "12px",
-                          color: "var(--muted)",
+                          fontSize: "11px",
+                          color: "var(--dim)",
                           marginTop: "2px",
+                          fontWeight: 300,
                         }}
                       >
                         {e.visibility} · {start.toLocaleDateString()}
@@ -290,9 +298,8 @@ export default function Dashboard() {
                     </div>
                     <div
                       style={{
-                        fontSize: "12px",
-                        color: "var(--slate)",
-                        fontWeight: 500,
+                        fontSize: "11px",
+                        color: "var(--faint)",
                         whiteSpace: "nowrap",
                       }}
                     >
@@ -311,7 +318,7 @@ export default function Dashboard() {
         {/* Notifications */}
         <div
           style={{
-            background: "var(--white)",
+            background: "var(--surface)",
             border: "1px solid var(--border)",
             borderRadius: "14px",
             overflow: "hidden",
@@ -319,36 +326,43 @@ export default function Dashboard() {
         >
           <div
             style={{
-              padding: "18px 22px",
+              padding: "16px 20px",
               borderBottom: "1px solid var(--border)",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
           >
-            <h3 style={{ fontSize: "15px", fontWeight: 600 }}>Notifications</h3>
+            <h3
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "var(--ink2)",
+              }}
+            >
+              Notifications
+            </h3>
             <span
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                padding: "3px 9px",
+                padding: "2px 9px",
                 borderRadius: "20px",
-                fontSize: "11px",
+                fontSize: "10px",
                 fontWeight: 600,
                 background: "var(--accent-soft)",
-                color: "var(--accent)",
+                color: "var(--accent-text)",
               }}
             >
               {notifications.length} new
             </span>
           </div>
-          <div style={{ padding: "16px 22px" }}>
+          <div style={{ padding: "14px 20px" }}>
             {loading ? (
               <div
                 style={{
                   textAlign: "center",
                   padding: "20px",
-                  color: "var(--muted)",
+                  color: "var(--faint)",
                 }}
               >
                 Loading...
@@ -358,7 +372,7 @@ export default function Dashboard() {
                 style={{
                   textAlign: "center",
                   padding: "20px",
-                  color: "var(--muted)",
+                  color: "var(--faint)",
                 }}
               >
                 No notifications
@@ -369,42 +383,44 @@ export default function Dashboard() {
                   key={n.notification_id}
                   style={{
                     display: "flex",
-                    gap: "12px",
-                    padding: "12px 0",
-                    borderBottom: "1px solid var(--surface)",
+                    gap: "10px",
+                    padding: "10px 0",
+                    borderBottom: "1px solid var(--border2)",
                   }}
                 >
+                  {/* all notifications use ⓘ with accent color */}
                   <div
                     style={{
-                      width: "34px",
-                      height: "34px",
-                      borderRadius: "10px",
-                      background:
-                        notifBg[n.notification_type] || "var(--surface)",
+                      width: "28px",
+                      height: "28px",
+                      borderRadius: "7px",
+                      background: "var(--accent-soft)",
+                      color: "var(--accent-text)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: "15px",
+                      fontSize: "13px",
                       flexShrink: 0,
                     }}
                   >
-                    {notifIcons[n.notification_type] || "🔔"}
+                    ⓘ
                   </div>
                   <div>
                     <div
                       style={{
-                        fontSize: "13px",
-                        color: "var(--ink2)",
-                        lineHeight: 1.4,
+                        fontSize: "11px",
+                        color: "var(--muted)",
+                        lineHeight: 1.5,
+                        fontWeight: 300,
                       }}
                     >
                       {n.message}
                     </div>
                     <div
                       style={{
-                        fontSize: "11px",
-                        color: "var(--muted)",
-                        marginTop: "3px",
+                        fontSize: "10px",
+                        color: "var(--faint)",
+                        marginTop: "2px",
                       }}
                     >
                       {new Date(n.created_at).toLocaleDateString()}

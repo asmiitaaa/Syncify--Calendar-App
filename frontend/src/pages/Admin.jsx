@@ -40,11 +40,11 @@ export default function Admin() {
 
   const badge = (text, color) => {
     const colors = {
-      blue: { background: "var(--accent-soft)", color: "var(--accent)" },
-      green: { background: "var(--green-soft)", color: "#16a34a" },
-      orange: { background: "var(--orange-soft)", color: "#d97706" },
-      gray: { background: "var(--surface)", color: "var(--slate)" },
-      purple: { background: "var(--purple-soft)", color: "#9333ea" },
+      blue: { background: "var(--accent-soft)", color: "var(--accent-text)" },
+      green: { background: "var(--green-soft)", color: "var(--green)" },
+      orange: { background: "var(--orange-soft)", color: "var(--orange)" },
+      gray: { background: "var(--surface2)", color: "var(--muted)" },
+      purple: { background: "var(--purple-soft)", color: "var(--purple)" },
       red: { background: "var(--red-soft)", color: "var(--red)" },
     };
     return (
@@ -52,10 +52,10 @@ export default function Admin() {
         style={{
           display: "inline-flex",
           alignItems: "center",
-          padding: "3px 9px",
+          padding: "2px 9px",
           borderRadius: "20px",
-          fontSize: "11px",
-          fontWeight: 600,
+          fontSize: "10px",
+          fontWeight: 500,
           whiteSpace: "nowrap",
           ...colors[color],
         }}
@@ -71,45 +71,59 @@ export default function Admin() {
     deleted: "red",
   };
 
+  // removed Active Users — now only 2 stat cards
+  // 🗒 for Total Events, ⚜ for Audit Logs
   const statCards = [
     {
-      icon: "👥",
+      icon: "𖨆",
       label: "Total Users",
       value: users.length,
-      color: "var(--accent-soft)",
+      bg: "var(--accent-soft)",
     },
     {
-      icon: "📋",
-      label: "Audit Logs",
-      value: auditLogs.length,
-      color: "var(--purple-soft)",
-    },
-    {
-      icon: "✅",
-      label: "Active Users",
-      value: users.filter((u) => u.is_active).length,
-      color: "var(--green-soft)",
-    },
-    {
-      icon: "📅",
+      icon: "🗒",
       label: "Total Events",
       value: users.reduce((acc, u) => acc + (u.total_events || 0), 0),
-      color: "var(--orange-soft)",
+      bg: "var(--orange-soft)",
+    },
+    {
+      icon: "⚜",
+      label: "Audit Logs",
+      value: auditLogs.length,
+      bg: "var(--purple-soft)",
     },
   ];
 
   const tabStyle = (tab) => ({
-    padding: "8px 20px",
-    border: "none",
+    padding: "7px 18px",
     borderRadius: "8px",
-    fontFamily: "DM Sans, sans-serif",
-    fontSize: "14px",
+    fontFamily: "var(--font-sans)",
+    fontSize: "12px",
     fontWeight: 500,
     cursor: "pointer",
-    background: activeTab === tab ? "var(--accent)" : "var(--white)",
-    color: activeTab === tab ? "white" : "var(--slate)",
+    background: activeTab === tab ? "var(--accent)" : "var(--surface)",
+    color: activeTab === tab ? "white" : "var(--muted)",
     border: activeTab === tab ? "none" : "1.5px solid var(--border)",
   });
+
+  const thStyle = {
+    background: "var(--surface2)",
+    padding: "10px 16px",
+    textAlign: "left",
+    fontSize: "10px",
+    fontWeight: 700,
+    color: "var(--dim)",
+    letterSpacing: ".06em",
+    textTransform: "uppercase",
+    borderBottom: "1px solid var(--border)",
+  };
+
+  const tdStyle = {
+    padding: "12px 16px",
+    fontSize: "12px",
+    color: "var(--slate)",
+    borderBottom: "1px solid var(--border2)",
+  };
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}>
@@ -117,24 +131,25 @@ export default function Admin() {
       <div style={{ marginBottom: "28px" }}>
         <div
           style={{
-            fontFamily: "DM Serif Display, serif",
+            fontFamily: "var(--font-serif)",
             fontSize: "28px",
             marginBottom: "4px",
+            color: "var(--ink)",
           }}
         >
           Admin Panel
         </div>
-        <div style={{ color: "var(--slate)", fontSize: "14px" }}>
+        <div style={{ color: "var(--dim)", fontSize: "13px", fontWeight: 300 }}>
           Manage users, view audit logs, and monitor system activity
         </div>
       </div>
 
-      {/* Stat Cards */}
+      {/* Stat Cards — 3 cards, no Active Users */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4,1fr)",
-          gap: "16px",
+          gridTemplateColumns: "repeat(3,1fr)",
+          gap: "14px",
           marginBottom: "28px",
         }}
       >
@@ -142,10 +157,10 @@ export default function Admin() {
           <div
             key={s.label}
             style={{
-              background: "var(--white)",
+              background: "var(--surface)",
               border: "1px solid var(--border)",
               borderRadius: "14px",
-              padding: "20px 22px",
+              padding: "18px 20px",
               display: "flex",
               alignItems: "center",
               gap: "14px",
@@ -156,7 +171,7 @@ export default function Admin() {
                 width: "44px",
                 height: "44px",
                 borderRadius: "12px",
-                background: s.color,
+                background: s.bg,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -167,14 +182,23 @@ export default function Admin() {
               {s.icon}
             </div>
             <div>
-              <div style={{ fontSize: "26px", fontWeight: 600, lineHeight: 1 }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "26px",
+                  fontWeight: 600,
+                  lineHeight: 1,
+                  color: "var(--ink2)",
+                }}
+              >
                 {loading ? "—" : s.value}
               </div>
               <div
                 style={{
-                  fontSize: "12px",
-                  color: "var(--muted)",
-                  marginTop: "3px",
+                  fontSize: "11px",
+                  color: "var(--faint)",
+                  marginTop: "4px",
+                  fontWeight: 300,
                 }}
               >
                 {s.label}
@@ -187,10 +211,10 @@ export default function Admin() {
       {/* Tabs */}
       <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
         <button style={tabStyle("users")} onClick={() => setActiveTab("users")}>
-          👥 Users
+          𖨆 Users
         </button>
         <button style={tabStyle("logs")} onClick={() => setActiveTab("logs")}>
-          📋 Audit Logs
+          ⚜ Audit Logs
         </button>
       </div>
 
@@ -198,7 +222,7 @@ export default function Admin() {
       {activeTab === "users" && (
         <div
           style={{
-            background: "var(--white)",
+            background: "var(--surface)",
             border: "1px solid var(--border)",
             borderRadius: "14px",
             overflow: "hidden",
@@ -206,11 +230,20 @@ export default function Admin() {
         >
           <div
             style={{
-              padding: "18px 22px",
+              padding: "16px 20px",
               borderBottom: "1px solid var(--border)",
             }}
           >
-            <h3 style={{ fontSize: "15px", fontWeight: 600 }}>All Users</h3>
+            <h3
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "var(--ink2)",
+              }}
+            >
+              All Users
+            </h3>
           </div>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
@@ -224,20 +257,7 @@ export default function Admin() {
                   "Joined",
                   "Actions",
                 ].map((h) => (
-                  <th
-                    key={h}
-                    style={{
-                      background: "var(--surface)",
-                      padding: "11px 16px",
-                      textAlign: "left",
-                      fontSize: "12px",
-                      fontWeight: 700,
-                      color: "var(--muted)",
-                      letterSpacing: ".05em",
-                      textTransform: "uppercase",
-                      borderBottom: "1px solid var(--border)",
-                    }}
-                  >
+                  <th key={h} style={thStyle}>
                     {h}
                   </th>
                 ))}
@@ -251,7 +271,7 @@ export default function Admin() {
                     style={{
                       textAlign: "center",
                       padding: "40px",
-                      color: "var(--muted)",
+                      color: "var(--faint)",
                     }}
                   >
                     Loading users...
@@ -264,7 +284,7 @@ export default function Admin() {
                     style={{
                       textAlign: "center",
                       padding: "40px",
-                      color: "var(--muted)",
+                      color: "var(--faint)",
                     }}
                   >
                     No users found
@@ -272,20 +292,11 @@ export default function Admin() {
                 </tr>
               ) : (
                 users.map((u) => (
-                  <tr
-                    key={u.user_id}
-                    style={{ borderBottom: "1px solid var(--surface)" }}
-                  >
-                    <td
-                      style={{
-                        padding: "14px 16px",
-                        fontSize: "13px",
-                        color: "var(--muted)",
-                      }}
-                    >
+                  <tr key={u.user_id}>
+                    <td style={{ ...tdStyle, color: "var(--dim)" }}>
                       #{u.user_id}
                     </td>
-                    <td style={{ padding: "14px 16px" }}>
+                    <td style={tdStyle}>
                       <div
                         style={{
                           display: "flex",
@@ -295,70 +306,61 @@ export default function Admin() {
                       >
                         <div
                           style={{
-                            width: "32px",
-                            height: "32px",
+                            width: "28px",
+                            height: "28px",
                             borderRadius: "50%",
                             background: "var(--accent-soft)",
-                            color: "var(--accent)",
+                            color: "var(--accent-text)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            fontSize: "12px",
-                            fontWeight: 700,
+                            fontSize: "11px",
+                            fontWeight: 600,
                             flexShrink: 0,
                           }}
                         >
                           {u.name?.charAt(0).toUpperCase()}
                         </div>
-                        <span style={{ fontWeight: 500, fontSize: "14px" }}>
+                        <span
+                          style={{
+                            fontWeight: 500,
+                            fontSize: "13px",
+                            color: "var(--ink2)",
+                          }}
+                        >
                           {u.name}
                         </span>
                       </div>
                     </td>
-                    <td
-                      style={{
-                        padding: "14px 16px",
-                        fontSize: "14px",
-                        color: "var(--slate)",
-                      }}
-                    >
-                      {u.email}
-                    </td>
-                    <td style={{ padding: "14px 16px", fontSize: "14px" }}>
-                      {u.total_events || 0}
-                    </td>
-                    <td style={{ padding: "14px 16px" }}>
+                    <td style={tdStyle}>{u.email}</td>
+                    <td style={tdStyle}>{u.total_events || 0}</td>
+                    <td style={tdStyle}>
                       {badge(
                         u.is_active ? "Active" : "Inactive",
                         u.is_active ? "green" : "gray",
                       )}
                     </td>
-                    <td
-                      style={{
-                        padding: "14px 16px",
-                        fontSize: "13px",
-                        color: "var(--slate)",
-                      }}
-                    >
+                    <td style={tdStyle}>
                       {new Date(u.created_at).toLocaleDateString()}
                     </td>
-                    <td style={{ padding: "14px 16px" }}>
+                    <td style={tdStyle}>
                       <button
                         onClick={() => deleteUser(u.user_id)}
                         style={{
-                          width: "32px",
-                          height: "32px",
-                          borderRadius: "8px",
-                          background: "var(--surface)",
+                          width: "30px",
+                          height: "30px",
+                          borderRadius: "7px",
+                          background: "var(--surface2)",
                           border: "1px solid var(--border)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           cursor: "pointer",
-                          fontSize: "15px",
+                          fontSize: "14px",
+                          color: "white",
                         }}
                       >
-                        🗑️
+                        🗑
                       </button>
                     </td>
                   </tr>
@@ -373,7 +375,7 @@ export default function Admin() {
       {activeTab === "logs" && (
         <div
           style={{
-            background: "var(--white)",
+            background: "var(--surface)",
             border: "1px solid var(--border)",
             borderRadius: "14px",
             overflow: "hidden",
@@ -381,11 +383,20 @@ export default function Admin() {
         >
           <div
             style={{
-              padding: "18px 22px",
+              padding: "16px 20px",
               borderBottom: "1px solid var(--border)",
             }}
           >
-            <h3 style={{ fontSize: "15px", fontWeight: 600 }}>Audit Logs</h3>
+            <h3
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "var(--ink2)",
+              }}
+            >
+              Audit Logs
+            </h3>
           </div>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
@@ -397,20 +408,7 @@ export default function Admin() {
                   "Details",
                   "Timestamp",
                 ].map((h) => (
-                  <th
-                    key={h}
-                    style={{
-                      background: "var(--surface)",
-                      padding: "11px 16px",
-                      textAlign: "left",
-                      fontSize: "12px",
-                      fontWeight: 700,
-                      color: "var(--muted)",
-                      letterSpacing: ".05em",
-                      textTransform: "uppercase",
-                      borderBottom: "1px solid var(--border)",
-                    }}
-                  >
+                  <th key={h} style={thStyle}>
                     {h}
                   </th>
                 ))}
@@ -424,7 +422,7 @@ export default function Admin() {
                     style={{
                       textAlign: "center",
                       padding: "40px",
-                      color: "var(--muted)",
+                      color: "var(--faint)",
                     }}
                   >
                     Loading audit logs...
@@ -437,7 +435,7 @@ export default function Admin() {
                     style={{
                       textAlign: "center",
                       padding: "40px",
-                      color: "var(--muted)",
+                      color: "var(--faint)",
                     }}
                   >
                     No audit logs found
@@ -445,49 +443,32 @@ export default function Admin() {
                 </tr>
               ) : (
                 auditLogs.map((log, idx) => (
-                  <tr
-                    key={idx}
-                    style={{ borderBottom: "1px solid var(--surface)" }}
-                  >
+                  <tr key={idx}>
                     <td
                       style={{
-                        padding: "14px 16px",
+                        ...tdStyle,
                         fontWeight: 500,
-                        fontSize: "14px",
+                        color: "var(--ink2)",
                       }}
                     >
                       {log.event_title || `Event #${log.event_id}`}
                     </td>
-                    <td style={{ padding: "14px 16px" }}>
+                    <td style={tdStyle}>
                       {badge(log.action, actionColors[log.action] || "gray")}
                     </td>
-                    <td
-                      style={{
-                        padding: "14px 16px",
-                        fontSize: "14px",
-                        color: "var(--slate)",
-                      }}
-                    >
+                    <td style={tdStyle}>
                       {log.performed_by_name || `User #${log.performed_by}`}
                     </td>
                     <td
                       style={{
-                        padding: "14px 16px",
-                        fontSize: "13px",
-                        color: "var(--muted)",
+                        ...tdStyle,
                         maxWidth: "280px",
+                        color: "var(--muted)",
                       }}
                     >
                       {log.details}
                     </td>
-                    <td
-                      style={{
-                        padding: "14px 16px",
-                        fontSize: "13px",
-                        color: "var(--slate)",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <td style={{ ...tdStyle, whiteSpace: "nowrap" }}>
                       {new Date(log.action_timestamp).toLocaleString()}
                     </td>
                   </tr>

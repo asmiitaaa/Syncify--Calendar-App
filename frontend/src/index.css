@@ -1,27 +1,39 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap");
 
 :root {
-  --ink: #1a1a2e;
-  --ink2: #2d2d4a;
-  --slate: #5a5a7a;
-  --muted: #9090aa;
-  --border: #e0e0f0;
-  --surface: #f6f6fb;
+  /* backgrounds */
+  --bg: #0f0f1a;
+  --surface: #1a1a2e;
+  --surface2: #13132a;
+  --border: #2a2a4a;
+  --border2: #1a1a32;
+
+  /* text */
+  --ink: #d0d0e8;
+  --ink2: #a0a0c8;
+  --slate: #9090b8;
+  --muted: #7070a0;
+  --faint: #5050aa;
+  --dim: #4a4a7a;
+
+  /* accent */
   --accent: #5c6ef8;
-  --accent-soft: #eef0ff;
-  --accent-dark: #3a4dd4;
+  --accent-soft: #1e2460;
+  --accent-text: #7c8ff8;
+
+  /* semantic */
   --green: #22c55e;
-  --green-soft: #dcfce7;
+  --green-soft: #1a2a1a;
   --orange: #f59e0b;
-  --orange-soft: #fef3c7;
+  --orange-soft: #2a1a00;
   --red: #ef4444;
-  --red-soft: #fee2e2;
+  --red-soft: #2a1a1a;
   --purple: #a855f7;
-  --purple-soft: #f3e8ff;
+  --purple-soft: #2a1a2a;
+
+  /* fonts */
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Lora", serif;
 }
 
 * {
@@ -29,8 +41,9 @@
   margin: 0;
   padding: 0;
 }
+
 body {
-  font-family: "DM Sans", sans-serif;
-  background: var(--surface);
+  font-family: var(--font-sans);
+  background: var(--bg);
   color: var(--ink);
 }
