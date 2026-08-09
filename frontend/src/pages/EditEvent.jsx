@@ -5,7 +5,7 @@ import { showToast } from "../components/Toast";
 
 export default function EditEvent() {
   const navigate = useNavigate();
-  const { id } = useParams(); // event_id from the url
+  const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [isRecurring, setIsRecurring] = useState(false);
@@ -83,28 +83,29 @@ export default function EditEvent() {
 
   const inputStyle = {
     width: "100%",
-    padding: "10px 14px",
+    padding: "9px 12px",
     border: "1.5px solid var(--border)",
-    borderRadius: "10px",
-    fontFamily: "DM Sans, sans-serif",
-    fontSize: "14px",
+    borderRadius: "8px",
+    fontFamily: "var(--font-sans)",
+    fontSize: "13px",
     outline: "none",
-    background: "var(--white)",
+    background: "var(--surface2)",
+    color: "var(--ink)",
   };
 
   const labelStyle = {
     display: "block",
-    fontSize: "13px",
-    fontWeight: 500,
-    marginBottom: "6px",
-    color: "var(--ink2)",
+    fontSize: "12px",
+    fontWeight: 400,
+    marginBottom: "5px",
+    color: "var(--muted)",
   };
 
   const sectionLabelStyle = {
-    fontSize: "11px",
+    fontSize: "10px",
     fontWeight: 700,
     letterSpacing: ".08em",
-    color: "var(--muted)",
+    color: "var(--dim)",
     textTransform: "uppercase",
     marginBottom: "12px",
   };
@@ -117,8 +118,9 @@ export default function EditEvent() {
           alignItems: "center",
           justifyContent: "center",
           minHeight: "calc(100vh - 60px)",
-          color: "var(--muted)",
-          fontSize: "14px",
+          color: "var(--faint)",
+          fontSize: "13px",
+          background: "var(--bg)",
         }}
       >
         Loading event...
@@ -131,21 +133,22 @@ export default function EditEvent() {
       <div style={{ marginBottom: "20px" }}>
         <div
           style={{
-            fontFamily: "DM Serif Display, serif",
+            fontFamily: "var(--font-serif)",
             fontSize: "28px",
             marginBottom: "4px",
+            color: "var(--ink)",
           }}
         >
           Edit Event
         </div>
-        <div style={{ color: "var(--slate)", fontSize: "14px" }}>
+        <div style={{ color: "var(--dim)", fontSize: "13px", fontWeight: 300 }}>
           Update the details below — changes will be logged automatically
         </div>
       </div>
 
       <div
         style={{
-          background: "var(--white)",
+          background: "var(--surface)",
           border: "1px solid var(--border)",
           borderRadius: "16px",
           overflow: "hidden",
@@ -153,25 +156,26 @@ export default function EditEvent() {
       >
         <div
           style={{
-            padding: "24px 28px",
+            padding: "20px 28px",
             borderBottom: "1px solid var(--border)",
-            background:
-              "linear-gradient(135deg, var(--accent-soft), var(--white))",
+            background: "var(--surface2)",
           }}
         >
           <h2
             style={{
-              fontFamily: "DM Serif Display, serif",
-              fontSize: "22px",
+              fontFamily: "var(--font-serif)",
+              fontSize: "18px",
+              color: "var(--ink2)",
             }}
           >
             Event Details
           </h2>
           <p
             style={{
-              color: "var(--slate)",
-              fontSize: "13px",
+              color: "var(--faint)",
+              fontSize: "12px",
               marginTop: "4px",
+              fontWeight: 300,
             }}
           >
             Fields marked with * are required
@@ -182,28 +186,24 @@ export default function EditEvent() {
           {/* Basic Info */}
           <div style={{ marginBottom: "24px" }}>
             <div style={sectionLabelStyle}>Basic Information</div>
-            <div style={{ marginBottom: "18px" }}>
+            <div style={{ marginBottom: "16px" }}>
               <label style={labelStyle}>Event Title *</label>
               <input
                 name="title"
                 value={form.title}
                 onChange={handleChange}
-                placeholder="e.g. Sprint Planning Meeting"
+                placeholder="Enter event title"
                 style={inputStyle}
               />
             </div>
-            <div style={{ marginBottom: "18px" }}>
+            <div style={{ marginBottom: "16px" }}>
               <label style={labelStyle}>Description</label>
               <textarea
                 name="description"
                 value={form.description}
                 onChange={handleChange}
-                placeholder="Optional — describe what this event is about..."
-                style={{
-                  ...inputStyle,
-                  resize: "vertical",
-                  minHeight: "90px",
-                }}
+                placeholder="Enter description (optional)"
+                style={{ ...inputStyle, resize: "vertical", minHeight: "80px" }}
               />
             </div>
           </div>
@@ -277,18 +277,24 @@ export default function EditEvent() {
                     borderRadius: "50%",
                     background: "white",
                     transition: "left .2s",
-                    boxShadow: "0 1px 4px rgba(0,0,0,.2)",
+                    boxShadow: "0 1px 4px rgba(0,0,0,.3)",
                   }}
-                ></span>
+                />
               </button>
-              <span style={{ fontSize: "14px", fontWeight: 500 }}>
+              <span
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 400,
+                  color: "var(--slate)",
+                }}
+              >
                 This is a recurring event
               </span>
             </div>
             {isRecurring && (
               <div
                 style={{
-                  background: "var(--surface)",
+                  background: "var(--surface2)",
                   border: "1px solid var(--border)",
                   borderRadius: "10px",
                   padding: "16px",
@@ -369,13 +375,13 @@ export default function EditEvent() {
               type="button"
               onClick={() => navigate("/events")}
               style={{
-                padding: "10px 20px",
-                background: "var(--white)",
-                color: "var(--accent)",
+                padding: "9px 20px",
+                background: "transparent",
+                color: "var(--accent-text)",
                 border: "1.5px solid var(--accent)",
-                borderRadius: "10px",
-                fontFamily: "DM Sans, sans-serif",
-                fontSize: "14px",
+                borderRadius: "9px",
+                fontFamily: "var(--font-sans)",
+                fontSize: "13px",
                 fontWeight: 500,
                 cursor: "pointer",
               }}
@@ -386,14 +392,14 @@ export default function EditEvent() {
               type="submit"
               disabled={loading}
               style={{
-                padding: "10px 28px",
+                padding: "9px 24px",
                 background: "var(--accent)",
                 color: "white",
                 border: "none",
-                borderRadius: "10px",
-                fontFamily: "DM Sans, sans-serif",
-                fontSize: "15px",
-                fontWeight: 600,
+                borderRadius: "9px",
+                fontFamily: "var(--font-sans)",
+                fontSize: "13px",
+                fontWeight: 500,
                 cursor: "pointer",
               }}
             >

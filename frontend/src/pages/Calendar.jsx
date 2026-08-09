@@ -231,6 +231,11 @@ export default function Calendar() {
               return (
                 <div
                   key={day}
+                  onClick={() =>
+                    navigate(
+                      `/new-event?date=${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
+                    )
+                  }
                   style={{
                     minHeight: "100px",
                     borderRight: "1px solid var(--border2)",

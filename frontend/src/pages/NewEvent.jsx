@@ -1,17 +1,22 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import API from "../api";
 import { showToast } from "../components/Toast";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function NewEvent() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [isRecurring, setIsRecurring] = useState(false);
   const [form, setForm] = useState({
     title: "",
     description: "",
-    start_datetime: "",
-    end_datetime: "",
+    start_datetime: searchParams.get("date")
+      ? `${searchParams.get("date")}T09:00`
+      : "",
+    end_datetime: searchParams.get("date")
+      ? `${searchParams.get("date")}T10:00`
+      : "",
     visibility: "shared",
     recurrence_type: "weekly",
     recurrence_interval: 1,
